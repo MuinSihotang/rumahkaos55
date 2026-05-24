@@ -18,6 +18,7 @@ class CategoryResource extends Resource
     // Mengatur ikon dan grup menu di sidebar
     protected static ?string $navigationIcon = 'heroicon-o-tag';
     protected static ?string $navigationGroup = 'Katalog Produk';
+    protected static ?string $navigationLabel = 'Kategori';
     protected static ?int $navigationSort = 1; // Menaruh kategori di atas Produk
 
     public static function form(Form $form): Form
