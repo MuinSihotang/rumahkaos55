@@ -1,6 +1,9 @@
 <x-app-layout>
+    <!-- Wadah Utama Halaman Registrasi -->
     <div class="bg-gray-50 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 selection:bg-black selection:text-white">
         <div class="max-w-md w-full space-y-8 bg-white p-10 border border-gray-200">
+            
+            <!-- Bagian Header Form Registrasi -->
             <div>
                 <h2 class="mt-2 text-center text-3xl font-extrabold text-black uppercase tracking-tight">
                     Create Account
@@ -10,9 +13,11 @@
                 </p>
             </div>
             
+            <!-- Formulir Pendaftaran Pengguna Baru -->
             <form class="mt-8 space-y-6" action="{{ route('register') }}" method="POST">
                 @csrf
                 
+                <!-- Blok Penanganan dan Menampilkan Pesan Validasi Error -->
                 @if ($errors->any())
                     <div class="bg-red-50 text-red-500 p-4 text-sm border border-red-200">
                         <ul class="list-disc pl-5">
@@ -23,6 +28,7 @@
                     </div>
                 @endif
 
+                <!-- Kelompok Input Data Pengguna -->
                 <div class="space-y-4">
                     <div>
                         <label for="name" class="block text-sm font-medium text-black mb-1">Nama Lengkap</label>
@@ -42,12 +48,14 @@
                     </div>
                 </div>
 
+                <!-- Tombol Eksekusi Pendaftaran Akun -->
                 <div>
                     <button type="submit" class="group relative w-full flex justify-center py-4 px-4 border border-transparent text-sm font-bold uppercase tracking-widest text-white bg-black hover:bg-gray-800 transition-colors">
                         Sign Up
                     </button>
                 </div>
                 
+                <!-- Tautan Pengalihan ke Halaman Autentikasi -->
                 <div class="text-center text-sm mt-4">
                     <span class="text-gray-500">Sudah punya akun?</span>
                     <a href="{{ route('login') }}" class="font-bold text-black hover:underline transition-colors ml-1">Masuk di sini</a>

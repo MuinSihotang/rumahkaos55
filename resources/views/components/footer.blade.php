@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-12">
             
-            <!-- Brand Section -->
+            <!-- Bagian Identitas Merek dan Deskripsi Singkat -->
             <div>
                 <h3 class="text-xl font-bold tracking-tighter uppercase mb-6">T-SHIRT CO.</h3>
                 <p class="text-gray-400 text-sm leading-relaxed">
@@ -10,7 +10,7 @@
                 </p>
             </div>
 
-            <!-- Links -->
+            <!-- Tautan Navigasi Katalog Produk -->
             <div>
                 <h4 class="text-sm font-bold uppercase tracking-wider mb-6">Shop</h4>
                 <ul class="space-y-4 text-sm text-gray-400">
@@ -21,7 +21,7 @@
                 </ul>
             </div>
 
-            <!-- Support -->
+            <!-- Tautan Layanan Bantuan Pelanggan -->
             <div>
                 <h4 class="text-sm font-bold uppercase tracking-wider mb-6">Support</h4>
                 <ul class="space-y-4 text-sm text-gray-400">
@@ -32,7 +32,7 @@
                 </ul>
             </div>
 
-            <!-- Newsletter -->
+            <!-- Formulir Berlangganan Buletin Informasi -->
             <div>
                 <h4 class="text-sm font-bold uppercase tracking-wider mb-6">Newsletter</h4>
                 <p class="text-gray-400 text-sm mb-4">Dapatkan update rilis terbaru dan penawaran eksklusif.</p>
@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <!-- Copyright -->
+        <!-- Informasi Hak Cipta dan Tautan Legalitas -->
         <div class="border-t border-gray-800 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
             <p>&copy; {{ date('Y') }} T-Shirt Co. All rights reserved.</p>
             <div class="flex space-x-6 mt-4 md:mt-0">

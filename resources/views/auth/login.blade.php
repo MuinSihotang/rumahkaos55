@@ -1,6 +1,9 @@
 <x-app-layout>
+    <!-- Wrapper Utama Autentikasi -->
     <div class="bg-gray-50 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 selection:bg-black selection:text-white">
         <div class="max-w-md w-full space-y-8 bg-white p-10 border border-gray-200">
+            
+            <!-- Bagian Header Form Login -->
             <div>
                 <h2 class="mt-2 text-center text-3xl font-extrabold text-black uppercase tracking-tight">
                     Sign In
@@ -10,15 +13,18 @@
                 </p>
             </div>
             
+            <!-- Form Autentikasi Pengguna -->
             <form class="mt-8 space-y-6" action="{{ route('login') }}" method="POST">
                 @csrf
                 
+                <!-- Penanganan dan Tampilan Pesan Error (Validasi) -->
                 @if ($errors->any())
                     <div class="bg-red-50 text-red-500 p-4 text-sm border border-red-200">
                         {{ $errors->first() }}
                     </div>
                 @endif
 
+                <!-- Grup Input Kredensial -->
                 <div class="space-y-4">
                     <div>
                         <label for="email" class="block text-sm font-medium text-black mb-1">Email Address</label>
@@ -30,6 +36,7 @@
                     </div>
                 </div>
 
+                <!-- Opsi Sesi Persisten dan Pemulihan Akun -->
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-black focus:ring-black border-gray-300 rounded-none cursor-pointer">
@@ -42,12 +49,14 @@
                     </div>
                 </div>
 
+                <!-- Tombol Eksekusi Autentikasi -->
                 <div>
                     <button type="submit" class="group relative w-full flex justify-center py-4 px-4 border border-transparent text-sm font-bold uppercase tracking-widest text-white bg-black hover:bg-gray-800 transition-colors">
                         Sign In
                     </button>
                 </div>
                 
+                <!-- Tautan Pengalihan ke Halaman Registrasi -->
                 <div class="text-center text-sm mt-4">
                     <span class="text-gray-500">Belum punya akun?</span>
                     <a href="{{ route('register') }}" class="font-bold text-black hover:underline transition-colors ml-1">Buat Akun Sekarang</a>

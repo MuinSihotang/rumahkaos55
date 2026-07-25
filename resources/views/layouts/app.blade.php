@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T-Shirt Co. | Enterprise E-Commerce</title>
     
-    <!-- Menggunakan Tailwind CSS via CDN -->
+    <!-- Integrasi Framework Utilitas: Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Konfigurasi tambahan untuk memastikan warna sesuai standar enterprise Anda (Opsional) -->
+    <!-- Ekstensi Konfigurasi Tema Tailwind: Definisi Palet Warna Spesifik Enterprise -->
     <script>
         tailwind.config = {
             theme: {
@@ -23,7 +23,7 @@
         }
     </script>
 
-    <!-- Font Inter untuk tampilan clean & modern -->
+    <!-- Dependensi Tipografi: Import Font Inter untuk Konsistensi Antarmuka -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -31,15 +31,15 @@
 </head>
 <body class="bg-white text-black antialiased">
 
-    <!-- Memanggil Component Navbar -->
+    <!-- Render Komponen Antarmuka Navigasi Global -->
     <x-navbar />
 
-    <!-- Konten Utama -->
+    <!-- Kontainer Utama: Injeksi Konten Dinamis (Slot Render) -->
     <main class="min-h-screen">
         {{ $slot }}
     </main>
 
-    <!-- Memanggil Component Footer -->
+    <!-- Render Komponen Antarmuka Footer Global -->
     <x-footer />
 
 </body>

@@ -2,7 +2,7 @@
     <div class="bg-white min-h-screen pt-12 pb-24 selection:bg-black selection:text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <!-- Header Halaman -->
+            <!-- Komponen Header Halaman -->
             <div class="text-center mb-16 pt-8 border-b border-gray-200 pb-12">
                 <h1 class="text-4xl md:text-5xl font-extrabold text-black uppercase tracking-tighter mb-4">
                     {{ $pageTitle }}
@@ -12,15 +12,15 @@
                 </p>
             </div>
 
-            <!-- Layout 2 Kolom: Kiri (Filter) & Kanan (Produk) -->
+            <!-- Grid Layout Utama Pembagian Area Filter dan Katalog Produk -->
             <div class="lg:grid lg:grid-cols-4 lg:gap-x-12">
                 
-                <!-- SIDEBAR KIRI (FILTER) -->
+                <!-- Panel Sidebar Filter Pencarian -->
                 <div class="hidden lg:block lg:col-span-1">
                     <form action="{{ url()->current() }}" method="GET" class="sticky top-24">
                         <h2 class="text-lg font-bold text-black uppercase tracking-wider mb-6">Filter Produk</h2>
                         
-                        <!-- Filter Ukuran -->
+                        <!-- Opsi Filter Berdasarkan Ukuran Produk -->
                         <div class="mb-8 pb-8 border-b border-gray-200">
                             <h3 class="text-sm font-bold text-black uppercase tracking-wider mb-4">Ukuran</h3>
                             <div class="space-y-3">
@@ -35,7 +35,7 @@
                             </div>
                         </div>
 
-                        <!-- Filter Rentang Harga -->
+                        <!-- Opsi Filter Berdasarkan Rentang Harga -->
                         <div class="mb-8 pb-8 border-b border-gray-200">
                             <h3 class="text-sm font-bold text-black uppercase tracking-wider mb-4">Rentang Harga</h3>
                             <div class="grid grid-cols-2 gap-4 text-sm">
@@ -50,7 +50,7 @@
                             </div>
                         </div>
 
-                        <!-- Tombol Aksi Filter -->
+                        <!-- Grup Tombol Eksekusi dan Reset Filter -->
                         <div class="flex gap-2">
                             <button type="submit" class="w-full bg-black text-white text-xs font-bold uppercase tracking-widest py-3 hover:bg-gray-800 transition-colors">
                                 Apply Filter
@@ -64,7 +64,7 @@
                     </form>
                 </div>
 
-                <!-- BAGIAN KANAN (GRID PRODUK) -->
+                <!-- Wadah Utama Daftar Produk -->
                 <div class="lg:col-span-3">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 mb-16">
                         @forelse($products as $product)
@@ -94,7 +94,7 @@
                         @endforelse
                     </div>
 
-                    <!-- Pagination -->
+                    <!-- Komponen Navigasi Paginasi -->
                     <div class="mt-12">
                         {{ $products->links() }}
                     </div>

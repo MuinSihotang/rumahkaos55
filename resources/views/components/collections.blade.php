@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
-            <!-- Collection Banner 1 -->
+            <!-- Komponen Banner Kedatangan Produk Baru -->
             <div class="relative group aspect-[4/3] bg-gray-100 overflow-hidden cursor-pointer">
                 <div class="absolute inset-0 bg-gray-200 flex items-center justify-center text-gray-400 group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     <img src="{{ asset('images/hero-collection-1.jpeg') }}" alt="Gambar Model Pria" class="object-cover w-full h-full">
@@ -16,7 +16,7 @@
                 </div>
             </div>
 
-            <!-- Collection Banner 2 -->
+            <!-- Komponen Banner Daftar Produk Terlaris -->
             <div class="relative group aspect-[4/3] bg-gray-100 overflow-hidden cursor-pointer">
                 <div class="absolute inset-0 bg-gray-200 flex items-center justify-center text-gray-400 group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     <img src="{{ asset('images/hero-collection-1.jpeg') }}" alt="Gambar Model Wanita" class="object-cover w-full h-full">

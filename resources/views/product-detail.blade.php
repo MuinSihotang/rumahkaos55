@@ -2,7 +2,7 @@
     <div class="bg-white selection:bg-black selection:text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
             
-            <!-- Breadcrumb Navigation -->
+            <!-- Breadcrumb Navigation Component -->
             <nav class="flex text-xs font-medium text-gray-400 mb-8 tracking-wider uppercase">
                 <a href="/" class="hover:text-black transition-colors">Home</a>
                 <span class="mx-3">/</span>
@@ -11,19 +11,21 @@
                 <span class="text-black truncate max-w-[200px]">{{ $product->name }}</span>
             </nav>
 
-            <!-- Grid Utama Detail Produk -->
+            <!-- Product Details Main Layout (Grid) -->
             <div class="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
                 
-                <!-- KIRI: Galeri Gambar Produk -->
+                <!-- KIRI: Product Media Gallery Component -->
                 <div class="flex flex-col-reverse lg:flex-row gap-4 lg:gap-6">
-                    <!-- Thumbnail Gallery -->
+                    
+                    <!-- Thumbnail Gallery List -->
                     @if($product->gallery && is_array($product->gallery) && count($product->gallery) > 0)
                     <div class="flex lg:flex-col gap-4 overflow-x-auto lg:overflow-visible w-full lg:w-24 shrink-0 no-scrollbar">
-                        <!-- Thumbnail Gambar Utama -->
+                        <!-- Primary Image Thumbnail -->
                         <button class="w-20 h-24 lg:w-full lg:h-32 bg-gray-100 flex-shrink-0 border-2 border-black">
                             <img src="{{ asset('storage/' . $product->image_path) }}" alt="Thumbnail Utama" class="w-full h-full object-cover">
                         </button>
-                        <!-- Thumbnail Gambar Tambahan -->
+                        
+                        <!-- Additional Images Thumbnails Loop -->
                         @foreach($product->gallery as $image)
                         <button class="w-20 h-24 lg:w-full lg:h-32 bg-gray-100 flex-shrink-0 border border-transparent hover:border-gray-300 transition-colors">
                             <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail Tambahan" class="w-full h-full object-cover opacity-70 hover:opacity-100">
@@ -32,7 +34,7 @@
                     </div>
                     @endif
 
-                    <!-- Gambar Utama Membesar -->
+                    <!-- Main Image Display Container -->
                     <div class="w-full bg-gray-100 aspect-[3/4] relative">
                         @if($product->image_path)
                             <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
@@ -42,18 +44,19 @@
                     </div>
                 </div>
 
-                <!-- KANAN: Informasi & Aksi Produk -->
+                <!-- KANAN: Product Information & Interactive Actions Container -->
                 <div class="mt-10 px-4 sm:px-0 lg:mt-0">
                     
-                    <!-- 1. NAMA DAN HARGA -->
+                    <!-- 1. IDENTITAS PRODUK (Title & Price) -->
                     <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-black mb-2 uppercase">{{ $product->name }}</h1>
                     <p class="text-3xl font-bold text-black mb-8">Rp {{ number_format($product->base_price, 0, ',', '.') }}</p>
 
                     <form action="{{ route('cart.add') }}" method="POST" class="mb-10">
                         @csrf
+                        <!-- Hidden field untuk Product ID -->
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
 
-                        <!-- 2. PILIHAN VARIAN (UKURAN & WARNA) DI BAWAH HARGA -->
+                        <!-- 2. PEMILIHAN VARIAN PRODUK (Size & Color Attributes) -->
                         @if($product->variants && $product->variants->count() > 0)
                         <div class="mb-8 pt-4 border-t border-gray-200">
                             <div class="flex justify-between items-center mb-4">
@@ -63,13 +66,14 @@
                             
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                 @foreach($product->variants as $variant)
-                                <!-- Label berfungsi sebagai tombol Radio kustom -->
+                                <!-- Label element as custom Radio Button interface -->
                                 <label class="relative border border-gray-300 rounded-none p-4 flex items-center justify-center cursor-pointer hover:border-black transition-all">
                                     <input type="radio" name="variant_id" value="{{ $variant->id }}" class="sr-only peer" required>
                                     <div class="text-sm font-medium text-black text-center peer-checked:font-bold">
                                         {{ $variant->size }} <br> 
                                         <span class="text-xs text-gray-500 font-normal peer-checked:text-black">{{ $variant->color }}</span>
                                     </div>
+                                    <!-- Border indicator for checked state -->
                                     <div class="absolute inset-0 border-2 border-transparent peer-checked:border-black pointer-events-none"></div>
                                 </label>
                                 @endforeach
@@ -77,7 +81,7 @@
                         </div>
                         @endif
 
-                        <!-- TOMBOL ADD TO CART -->
+                        <!-- 3. ACTION BUTTONS (Add to Cart & Wishlist placeholder) -->
                         <div class="flex gap-4">
                             <button type="submit" class="flex-1 bg-black text-white px-8 py-5 text-sm font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors duration-300">
                                 Add to Cart
@@ -88,7 +92,7 @@
                         </div>
                     </form>
 
-                    <!-- 3. DESKRIPSI PRODUK DI BAWAH VARIAN & TOMBOL -->
+                    <!-- 4. KONTEN DESKRIPSI PRODUK (Rich Text area) -->
                     <div class="pt-8 border-t border-gray-200">
                         <h3 class="text-sm font-bold text-black uppercase tracking-wider mb-4">Deskripsi Produk</h3>
                         <div class="prose prose-sm prose-gray max-w-none text-gray-600 leading-relaxed">
@@ -99,13 +103,14 @@
                 </div>
             </div>
 
-            <!-- 4. KOMPONEN REKOMENDASI PRODUK LAINNYA -->
+            <!-- 5. RELATED PRODUCTS COMPONENT -->
             <div class="mt-24 pt-16 border-t border-gray-200">
                 <div class="flex justify-between items-end mb-10">
                     <h2 class="text-2xl lg:text-3xl font-bold tracking-tight text-black uppercase">Rekomendasi Lainnya</h2>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+                    <!-- Iterasi data relatedProducts jika data tersedia dari Controller -->
                     @if(isset($relatedProducts) && $relatedProducts->count() > 0)
                         @foreach($relatedProducts as $related)
                         <a href="/product/{{ $related->slug }}" class="group cursor-pointer block">
@@ -129,7 +134,7 @@
                         </a>
                         @endforeach
                     @else
-                        <!-- Tampilan default jika variabel $relatedProducts belum disiapkan di Route -->
+                        <!-- Fallback view: Ditampilkan jika variabel $relatedProducts kosong atau belum diimplementasikan di layer Controller -->
                         <div class="col-span-full text-center py-12 bg-gray-50 border border-dashed border-gray-300">
                             <p class="text-gray-500 text-sm">Belum ada rekomendasi produk saat ini.</p>
                         </div>

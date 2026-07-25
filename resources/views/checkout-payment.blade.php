@@ -16,14 +16,14 @@
         </div>
     </div>
 
-    <!-- Script Snap Midtrans -->
-    <!-- Ganti URL sandbox menjadi URL production jika sudah live -->
+    <!-- Injeksi Pustaka Midtrans Snap Client -->
+    <!-- Penyesuaian URL Environment dari Sandbox menuju Production saat fase Deployment -->
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
     <script type="text/javascript">
         document.getElementById('pay-button').onclick = function(){
             window.snap.pay('{{ $snapToken }}', {
                 onSuccess: function(result){
-                    // Bisa diarahkan ke halaman sukses
+                    // Redireksi ke antarmuka status transaksi berhasil
                     window.location.href = "/"; 
                 },
                 onPending: function(result){

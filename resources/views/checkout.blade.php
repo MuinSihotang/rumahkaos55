@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-extrabold text-black uppercase tracking-tight mb-10">Checkout</h1>
 
-            <!-- Notifikasi Berhasil/Gagal update keranjang -->
+            <!-- Komponen Notifikasi Status Manipulasi Keranjang (Flash Session) -->
             @if(session('success'))
                 <div class="mb-6 bg-green-50 text-green-700 p-4 text-sm border border-green-200">
                     {{ session('success') }}
@@ -16,7 +16,7 @@
             @endif
 
             <div class="lg:grid lg:grid-cols-12 lg:gap-x-12">
-                <!-- KIRI: Form Detail Pengiriman -->
+                <!-- Kolom Primer: Formulir Data Pengiriman Pengguna -->
                 <div class="lg:col-span-7">
                     <div class="bg-white p-8 border border-gray-200">
                         <h2 class="text-lg font-bold text-black uppercase tracking-wider mb-6 pb-4 border-b border-gray-200">Detail Pengiriman</h2>
@@ -47,14 +47,14 @@
                     </div>
                 </div>
 
-                <!-- KANAN: Ringkasan Pesanan -->
+                <!-- Kolom Sekunder: Ringkasan Item Pesanan (Sticky Order Summary) -->
                 <div class="lg:col-span-5 mt-10 lg:mt-0">
                     <div class="bg-white p-8 border border-gray-200 sticky top-24">
                         <h2 class="text-lg font-bold text-black uppercase tracking-wider mb-6 pb-4 border-b border-gray-200">Ringkasan Pesanan</h2>
                         
                         <div class="flow-root mb-6">
                             <ul class="-my-4 divide-y divide-gray-200">
-                                <!-- Ubah ini untuk menangkap $key array -->
+                                <!-- Iterasi Item Keranjang Beserta Indeks Kunci (Key) -->
                                 @foreach($cart as $key => $item)
                                 <li class="flex py-6">
                                     <div class="h-24 w-20 flex-shrink-0 bg-gray-100 border border-gray-200">
@@ -69,10 +69,10 @@
                                             <p class="mt-1 text-xs text-gray-500 uppercase tracking-widest">{{ $item['size'] }} | {{ $item['color'] }}</p>
                                         </div>
                                         
-                                        <!-- Kontrol Tambah, Kurang, Hapus -->
+                                        <!-- Antarmuka Mutasi Keranjang: Tambah, Kurangi, dan Hapus -->
                                         <div class="flex items-center justify-between mt-2">
                                             
-                                            <!-- Group Tombol Minus & Plus -->
+                                            <!-- Grup Kontrol Penyesuaian Kuantitas Produk -->
                                             <div class="flex items-center border border-gray-300">
                                                 <form action="{{ route('cart.update', $key) }}" method="POST" class="m-0">
                                                     @csrf
@@ -89,7 +89,7 @@
                                                 </form>
                                             </div>
                                             
-                                            <!-- Tombol Hapus / Trash -->
+                                            <!-- Eksekusi Penghapusan Item dari State Keranjang -->
                                             <form action="{{ route('cart.remove', $key) }}" method="POST" class="m-0">
                                                 @csrf
                                                 <button type="submit" class="text-xs font-bold text-gray-400 hover:text-red-600 uppercase tracking-wider flex items-center gap-1 transition-colors">

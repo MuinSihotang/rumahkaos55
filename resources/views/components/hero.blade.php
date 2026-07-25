@@ -1,7 +1,7 @@
 <section class="relative bg-white pt-16 pb-24 lg:pt-32 lg:pb-40 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center justify-between">
         
-        <!-- Copywriting Section -->
+        <!-- Sektor Tipografi Utama dan Call-to-Action (CTA) -->
         <div class="lg:w-1/2 text-center lg:text-left mb-16 lg:mb-0">
             <h1 class="text-5xl lg:text-7xl font-extrabold text-black tracking-tighter leading-tight mb-6">
                 ESSENTIAL<br/>COMFORT.
@@ -19,9 +19,9 @@
             </div>
         </div>
 
-        <!-- Image Placeholder -->
+        <!-- Kontainer Media dan Representasi Visual Produk -->
         <div class="lg:w-1/2 flex justify-center lg:justify-end">
-            <!-- Ganti src dengan gambar model T-shirt Anda -->
+            <!-- Implementasi aset visual utama; pastikan resolusi optimal untuk performa rendering -->
             <div class="w-full max-w-md aspect-[4/5] bg-gray-100 flex items-center justify-center">
                 <span class="text-gray-400 text-sm"><img src="{{ asset('images/hero-collection-1.jpeg') }}" alt="Gambar Model Pria" class="object-cover w-full h-full"></span>
             </div>
