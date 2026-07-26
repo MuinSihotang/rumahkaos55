@@ -6,7 +6,7 @@
             <div>
                 <h3 class="text-xl font-bold tracking-tighter uppercase mb-6">RUMAH KAOS 55</h3>
                 <p class="text-gray-400 text-sm leading-relaxed">
-                    Sidikalang Pride.
+                    DAIRI PRIDE.
                 </p>
             </div>
 

@@ -4,7 +4,7 @@
         <!-- Sektor Tipografi Utama dan Call-to-Action (CTA) -->
         <div class="lg:w-1/2 text-center lg:text-left mb-16 lg:mb-0">
             <h1 class="text-5xl lg:text-7xl font-extrabold text-black tracking-tighter leading-tight mb-6">
-                SIDIKALANG<br/>PRIDE.
+                DAIRI<br/>PRIDE.
             </h1>
             <p class="text-lg lg:text-xl text-gray-500 max-w-lg mx-auto lg:mx-0 mb-10">
                 T-shirt premium dengan potongan sempurna. Didesain untuk kenyamanan sehari-hari dengan material berkualitas tinggi standar enterprise.
