@@ -170,24 +170,27 @@
                                             </div>
 
                                             <!-- Aksi & Resi -->
-                                            <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
-                                                <div>
-                                                    @if($order->tracking_number)
-                                                        <p class="text-xs text-gray-500 uppercase tracking-wider">No Resi Pengiriman</p>
-                                                        <p class="text-sm font-black text-black tracking-widest">{{ $order->tracking_number }}</p>
-                                                    @else
-                                                        <p class="text-xs text-gray-500 italic">Resi belum tersedia</p>
-                                                    @endif
-                                                </div>
-                                                <div class="flex gap-3 w-full sm:w-auto">
-                                                    <a href="#" class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 text-xs font-bold uppercase tracking-widest text-black bg-white hover:bg-gray-50">Invoice</a>
-                                                    @if($order->status == 'pending')
-                                                        <a href="#" class="w-full sm:w-auto text-center px-4 py-2 border border-transparent text-xs font-bold uppercase tracking-widest text-white bg-black hover:bg-gray-800">Bayar Sekarang</a>
-                                                    @elseif($order->status == 'completed')
-                                                        <a href="#" class="w-full sm:w-auto text-center px-4 py-2 border border-transparent text-xs font-bold uppercase tracking-widest text-white bg-black hover:bg-gray-800">Beli Lagi</a>
-                                                    @endif
-                                                </div>
-                                            </div>
+<div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <div>
+        @if($order->tracking_number)
+            <p class="text-xs text-gray-500 uppercase tracking-wider">No Resi Pengiriman</p>
+            <p class="text-sm font-black text-black tracking-widest">{{ $order->tracking_number }}</p>
+        @else
+            <p class="text-xs text-gray-500 italic">Resi belum tersedia</p>
+        @endif
+    </div>
+    <div class="flex gap-3 w-full sm:w-auto">
+        <!-- Tombol Invoice: Sementara diberi fungsi print window browser -->
+        <a href="#" onclick="window.print(); return false;" class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 text-xs font-bold uppercase tracking-widest text-black bg-white hover:bg-gray-50">Invoice</a>
+        
+        @if($order->status == 'pending')
+            <!-- TOMBOL BAYAR SEKARANG SUDAH AKTIF -->
+            <a href="{{ route('order.pay', $order->id) }}" class="w-full sm:w-auto text-center px-4 py-2 border border-transparent text-xs font-bold uppercase tracking-widest text-white bg-black hover:bg-gray-800">Bayar Sekarang</a>
+        @elseif($order->status == 'completed')
+            <a href="/" class="w-full sm:w-auto text-center px-4 py-2 border border-transparent text-xs font-bold uppercase tracking-widest text-white bg-black hover:bg-gray-800">Beli Lagi</a>
+        @endif
+    </div>
+</div>
                                         </div>
                                     @endforeach
                                 </div>

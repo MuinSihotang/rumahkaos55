@@ -166,4 +166,47 @@ class CheckoutController extends Controller
 
         return view('checkout-payment', compact('snapToken', 'order'));
     }
+
+    // METHOD BARU: Bayar Ulang Pesanan Pending
+    public function pay($id)
+    {
+        // 1. Cari pesanan berdasarkan ID dan pastikan milik user yang sedang login
+        $order = Order::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+
+        // 2. Pastikan hanya pesanan 'pending' yang bisa dibayar ulang
+        if ($order->status !== 'pending') {
+            return redirect()->back()->with('error', 'Pesanan ini sudah diproses atau tidak dapat dibayar.');
+        }
+
+        // 3. TRIK PENTING: Update nomor invoice pesanan. 
+        // Midtrans akan menolak request jika order_id (nomor invoice) sudah pernah dikirim sebelumnya.
+        // Jadi kita buat ulang nomor urutnya agar terbaca sebagai transaksi baru di sisi Midtrans.
+        $newOrderNumber = 'INV-' . date('Ymd') . '-' . rand(100, 999);
+        $order->update([
+            'order_number' => $newOrderNumber
+        ]);
+
+        // 4. Setup Midtrans
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $newOrderNumber, // Gunakan nomor yang baru di-update
+                'gross_amount' => $order->grand_total,
+            ],
+            'customer_details' => [
+                'first_name' => auth()->user()->name,
+                'email' => auth()->user()->email,
+            ],
+        ];
+
+        // 5. Generate Snap Token Baru
+        $snapToken = Snap::getSnapToken($params);
+
+        // 6. Arahkan ke halaman pembayaran (Gunakan view yang sama saat checkout normal)
+        return view('checkout-payment', compact('snapToken', 'order'));
+    }
 }

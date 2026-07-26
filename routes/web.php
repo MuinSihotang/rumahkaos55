@@ -8,7 +8,10 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OrderController;
 
+// Tambahkan ini di web.php
+Route::post('/midtrans/notification', [OrderController::class, 'notification']);
 // ==========================================
 // PENGUNJUNG UMUM & KATALOG
 // ==========================================
@@ -88,6 +91,7 @@ Route::post('/cart/remove/{cartKey}', [App\Http\Controllers\CheckoutController::
 // Dilindungi middleware auth (harus login) dan verified (harus sudah verifikasi email)
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout')->middleware(['auth', 'verified']);
 Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process')->middleware(['auth', 'verified']);
+Route::get('/pesanan/{id}/bayar', [CheckoutController::class, 'pay'])->name('order.pay');
 
 // ==========================================
 // PROFIL CUSTOMER
