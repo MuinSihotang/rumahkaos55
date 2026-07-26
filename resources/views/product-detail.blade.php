@@ -20,24 +20,31 @@
                     <!-- Thumbnail Gallery List -->
                     @if($product->gallery && is_array($product->gallery) && count($product->gallery) > 0)
                     <div class="flex lg:flex-col gap-4 overflow-x-auto lg:overflow-visible w-full lg:w-24 shrink-0 no-scrollbar">
+                        
                         <!-- Primary Image Thumbnail -->
-                        <button class="w-20 h-24 lg:w-full lg:h-32 bg-gray-100 flex-shrink-0 border-2 border-black">
+                        <button type="button" onclick="document.getElementById('main-image').src='{{ asset('storage/' . $product->image_path) }}'" class="w-20 h-24 lg:w-full lg:h-32 bg-gray-100 flex-shrink-0 border-2 border-black focus:outline-none">
                             <img src="{{ asset('storage/' . $product->image_path) }}" alt="Thumbnail Utama" class="w-full h-full object-cover">
                         </button>
                         
                         <!-- Additional Images Thumbnails Loop -->
                         @foreach($product->gallery as $image)
-                        <button class="w-20 h-24 lg:w-full lg:h-32 bg-gray-100 flex-shrink-0 border border-transparent hover:border-gray-300 transition-colors">
-                            <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail Tambahan" class="w-full h-full object-cover opacity-70 hover:opacity-100">
-                        </button>
+                            @php
+                                // Mengambil path yang benar dari array multidimensi
+                                $imgPath = is_array($image) ? $image['path'] : $image;
+                            @endphp
+                            <button type="button" onclick="document.getElementById('main-image').src='{{ asset('storage/' . $imgPath) }}'" class="w-20 h-24 lg:w-full lg:h-32 bg-gray-100 flex-shrink-0 border border-transparent hover:border-gray-300 transition-colors focus:outline-none">
+                                <img src="{{ asset('storage/' . $imgPath) }}" alt="Thumbnail Tambahan" class="w-full h-full object-cover opacity-70 hover:opacity-100">
+                            </button>
                         @endforeach
+                        
                     </div>
                     @endif
 
                     <!-- Main Image Display Container -->
                     <div class="w-full bg-gray-100 aspect-[3/4] relative">
                         @if($product->image_path)
-                            <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                            <!-- Tambahkan ID 'main-image' di sini -->
+                            <img id="main-image" src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition-all duration-300">
                         @else
                             <div class="absolute inset-0 flex items-center justify-center text-gray-400 font-medium">No Image Provided</div>
                         @endif

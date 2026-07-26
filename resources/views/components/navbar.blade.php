@@ -5,7 +5,7 @@
             <!-- Elemen Identitas Merek (Logo) -->
             <div class="flex-shrink-0 flex items-center">
                 <a href="/" class="text-2xl font-bold tracking-tighter uppercase text-black">
-                    T-SHIRT CO.
+                    RUMAH KAOS 55
                 </a>
             </div>
             

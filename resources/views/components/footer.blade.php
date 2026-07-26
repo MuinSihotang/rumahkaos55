@@ -4,9 +4,9 @@
             
             <!-- Bagian Identitas Merek dan Deskripsi Singkat -->
             <div>
-                <h3 class="text-xl font-bold tracking-tighter uppercase mb-6">T-SHIRT CO.</h3>
+                <h3 class="text-xl font-bold tracking-tighter uppercase mb-6">RUMAH KAOS 55</h3>
                 <p class="text-gray-400 text-sm leading-relaxed">
-                    Mendefinisikan ulang pakaian dasar (basics) dengan material premium dan potongan yang dirancang secara presisi.
+                    Sidikalang Pride.
                 </p>
             </div>
 
@@ -14,10 +14,9 @@
             <div>
                 <h4 class="text-sm font-bold uppercase tracking-wider mb-6">Shop</h4>
                 <ul class="space-y-4 text-sm text-gray-400">
-                    <li><a href="#" class="hover:text-white transition-colors">Semua Produk</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Pria</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Wanita</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Koleksi Essentials</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">New Arrivals</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Best Sellers</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Collection</a></li>
                 </ul>
             </div>
 
@@ -47,7 +46,7 @@
 
         <!-- Informasi Hak Cipta dan Tautan Legalitas -->
         <div class="border-t border-gray-800 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-            <p>&copy; {{ date('Y') }} T-Shirt Co. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} RUMAH KAOS 55 All rights reserved.</p>
             <div class="flex space-x-6 mt-4 md:mt-0">
                 <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
                 <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
