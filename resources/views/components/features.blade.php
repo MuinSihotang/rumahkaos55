@@ -12,8 +12,8 @@
             <!-- Blok Indikator Nilai Produk: Layanan Logistik dan Pengiriman -->
             <div class="pt-8 md:pt-0 px-4">
                 <svg class="w-8 h-8 mx-auto mb-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                <h3 class="text-sm font-bold text-black uppercase tracking-wider">Gratis Pengiriman</h3>
-                <p class="mt-2 text-sm text-gray-500">Layanan pengiriman reguler gratis ke seluruh Indonesia.</p>
+                <h3 class="text-sm font-bold text-black uppercase tracking-wider">Pengiriman Ke Seluruh Indonesia</h3>
+                <p class="mt-2 text-sm text-gray-500">Layanan pengiriman reguler mencakup seluruh wilayah Indonesia.</p>
             </div>
 
             <!-- Blok Indikator Nilai Produk: Kebijakan Purnajual dan Retur -->
