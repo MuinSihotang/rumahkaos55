@@ -93,7 +93,11 @@ class CheckoutController extends Controller
             return $item['price'] * $item['quantity'];
         }, $cart));
 
-        return view('checkout', compact('cart', 'total'));
+        // TAMBAHAN: Ambil data alamat milik user yang sedang login
+        $addresses = auth()->user()->addresses;
+
+        // TAMBAHAN: Kirimkan variabel $addresses ke view
+        return view('checkout', compact('cart', 'total', 'addresses'));
     }
 
     public function process(Request $request)
@@ -102,16 +106,16 @@ class CheckoutController extends Controller
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu untuk melakukan checkout.');
         }
 
+        // 1. Ubah validasi: name, email, dan phone tidak lagi wajib (nullable)
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string|max:20',
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string|max:20',
             'address' => 'required|string',
         ]);
 
         $cart = session()->get('cart', []);
         
-        // Cek lagi untuk keamanan, kalau user mencoba akses /process tapi cart kosong
         if(empty($cart)) {
             return redirect('/')->with('error', 'Keranjang Anda kosong.');
         }
@@ -120,17 +124,29 @@ class CheckoutController extends Controller
             return $item['price'] * $item['quantity'];
         }, $cart));
 
-        // 1. Simpan Data Order
+        // 2. Ambil data pelanggan. Jika form kosong (karena disembunyikan), ambil dari database User
+        $customerName = $request->name ?? auth()->user()->name;
+        $customerEmail = $request->email ?? auth()->user()->email;
+        $customerPhone = $request->phone;
+
+        // Trik Cerdas: Jika nomor HP kosong, kita ekstrak dari string alamat yang dipilih user 
+        // (yang formatnya "Nama (08123...) - Alamat")
+        if (!$customerPhone) {
+            preg_match('/\((.*?)\)/', $request->address, $matches);
+            $customerPhone = $matches[1] ?? '00000000000';
+        }
+
+        // 3. Simpan Data Order
         $order = Order::create([
             'user_id' => auth()->id(),
             'order_number' => 'INV-' . date('Ymd') . '-' . rand(100, 999),
             'status' => 'pending',
             'shipping_cost' => 0,
             'grand_total' => $totalAmount,
-            'shipping_address' => $request->address,
+            'shipping_address' => $request->address, // String alamat utuh otomatis tersimpan di sini
         ]);
 
-        // 2. Simpan Data Order Item
+        // 4. Simpan Data Order Item
         foreach($cart as $item) {
             OrderItem::create([
                 'order_id' => $order->id,
@@ -140,7 +156,7 @@ class CheckoutController extends Controller
             ]);
         }
 
-        // 3. Setup Midtrans
+        // 5. Setup Midtrans
         Config::$serverKey = config('midtrans.server_key');
         Config::$isProduction = config('midtrans.is_production');
         Config::$isSanitized = true;
@@ -152,9 +168,9 @@ class CheckoutController extends Controller
                 'gross_amount' => $totalAmount,
             ],
             'customer_details' => [
-                'first_name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
+                'first_name' => $customerName, // Pakai variabel yang sudah diamankan
+                'email' => $customerEmail,     // Pakai variabel yang sudah diamankan
+                'phone' => $customerPhone,     // Pakai variabel yang sudah diamankan
             ],
         ];
 

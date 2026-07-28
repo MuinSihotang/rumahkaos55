@@ -120,29 +120,38 @@
 
                                             <!-- Visual Tracking Stepper -->
                                             <div class="px-6 py-6 border-b border-gray-100">
-                                                <div class="relative max-w-2xl">
-                                                    <div class="overflow-hidden h-1 mb-4 text-xs flex rounded bg-gray-200">
-                                                        @php
-                                                            $progress = match($order->status) {
-                                                                'pending' => '25%',
-                                                                'processing' => '50%',
-                                                                'shipped' => '75%',
-                                                                'completed' => '100%',
-                                                                default => '0%'
-                                                            };
-                                                        @endphp
-                                                        <div style="width: {{ $progress }}" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-black transition-all duration-500"></div>
+                                                @if($order->status == 'cancelled')
+                                                    <!-- Jika Dibatalkan, Munculkan Banner Merah -->
+                                                    <div class="p-4 bg-red-50 border border-red-200 text-center">
+                                                        <p class="text-sm font-bold text-red-600 uppercase tracking-widest">Pesanan Dibatalkan</p>
                                                     </div>
-                                                    <div class="flex justify-between text-xs font-bold uppercase tracking-wider">
-                                                        <span class="{{ in_array($order->status, ['pending', 'processing', 'shipped', 'completed']) ? 'text-black' : 'text-gray-400' }}">Pending</span>
-                                                        <span class="{{ in_array($order->status, ['processing', 'shipped', 'completed']) ? 'text-black' : 'text-gray-400' }}">Diproses</span>
-                                                        <span class="{{ in_array($order->status, ['shipped', 'completed']) ? 'text-black' : 'text-gray-400' }}">Dikirim</span>
-                                                        <span class="{{ $order->status == 'completed' ? 'text-black' : 'text-gray-400' }}">Selesai</span>
+                                                @else
+                                                    <!-- Jika Normal, Tampilkan Stepper -->
+                                                    <div class="relative max-w-2xl">
+                                                        <div class="overflow-hidden h-1 mb-4 text-xs flex rounded bg-gray-200">
+                                                            @php
+                                                                $progress = match($order->status) {
+                                                                    'pending' => '25%',
+                                                                    'processing' => '50%',
+                                                                    'shipped' => '75%',
+                                                                    'completed' => '100%',
+                                                                    default => '0%'
+                                                                };
+                                                            @endphp
+                                                            <div style="width: {{ $progress }}" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-black transition-all duration-500"></div>
+                                                        </div>
+                                                        <div class="flex justify-between text-xs font-bold uppercase tracking-wider">
+                                                            <span class="{{ in_array($order->status, ['pending', 'processing', 'shipped', 'completed']) ? 'text-black' : 'text-gray-400' }}">Pending</span>
+                                                            <span class="{{ in_array($order->status, ['processing', 'shipped', 'completed']) ? 'text-black' : 'text-gray-400' }}">Diproses</span>
+                                                            <span class="{{ in_array($order->status, ['shipped', 'completed']) ? 'text-black' : 'text-gray-400' }}">Dikirim</span>
+                                                            <span class="{{ $order->status == 'completed' ? 'text-black' : 'text-gray-400' }}">Selesai</span>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             </div>
                                             
                                             <!-- Daftar Item -->
+                                            <!-- (Bagian daftar item biarkan seperti aslinya, tidak ada yang diubah) -->
                                             <div class="px-6 py-4">
                                                 <ul class="divide-y divide-gray-100">
                                                     @foreach($order->items as $item)
@@ -170,27 +179,32 @@
                                             </div>
 
                                             <!-- Aksi & Resi -->
-<div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
-    <div>
-        @if($order->tracking_number)
-            <p class="text-xs text-gray-500 uppercase tracking-wider">No Resi Pengiriman</p>
-            <p class="text-sm font-black text-black tracking-widest">{{ $order->tracking_number }}</p>
-        @else
-            <p class="text-xs text-gray-500 italic">Resi belum tersedia</p>
-        @endif
-    </div>
-    <div class="flex gap-3 w-full sm:w-auto">
-        <!-- Tombol Invoice: Sementara diberi fungsi print window browser -->
-        <a href="#" onclick="window.print(); return false;" class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 text-xs font-bold uppercase tracking-widest text-black bg-white hover:bg-gray-50">Invoice</a>
-        
-        @if($order->status == 'pending')
-            <!-- TOMBOL BAYAR SEKARANG SUDAH AKTIF -->
-            <a href="{{ route('order.pay', $order->id) }}" class="w-full sm:w-auto text-center px-4 py-2 border border-transparent text-xs font-bold uppercase tracking-widest text-white bg-black hover:bg-gray-800">Bayar Sekarang</a>
-        @elseif($order->status == 'completed')
-            <a href="/" class="w-full sm:w-auto text-center px-4 py-2 border border-transparent text-xs font-bold uppercase tracking-widest text-white bg-black hover:bg-gray-800">Beli Lagi</a>
-        @endif
-    </div>
-</div>
+                                            <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+                                                <div>
+                                                    @if($order->tracking_number)
+                                                        <p class="text-xs text-gray-500 uppercase tracking-wider">No Resi Pengiriman</p>
+                                                        <p class="text-sm font-black text-black tracking-widest">{{ $order->tracking_number }}</p>
+                                                    @else
+                                                        <p class="text-xs text-gray-500 italic">Resi belum tersedia</p>
+                                                    @endif
+                                                </div>
+                                                <div class="flex gap-3 w-full sm:w-auto">
+                                                    
+                                                    <!-- LOGIKA TOMBOL INVOICE -->
+                                                    @if($order->status == 'cancelled')
+                                                        <button disabled class="w-full sm:w-auto text-center px-4 py-2 border border-gray-200 text-xs font-bold uppercase tracking-widest text-gray-400 bg-gray-100 cursor-not-allowed">Invoice</button>
+                                                    @else
+                                                        <a href="{{ route('order.invoice', $order->id) }}" target="_blank" class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 text-xs font-bold uppercase tracking-widest text-black bg-white hover:bg-gray-50">Invoice</a>
+                                                    @endif
+
+                                                    <!-- LOGIKA TOMBOL BAYAR/BELI LAGI -->
+                                                    @if($order->status == 'pending')
+                                                        <a href="{{ route('order.pay', $order->id) }}" class="w-full sm:w-auto text-center px-4 py-2 border border-transparent text-xs font-bold uppercase tracking-widest text-white bg-black hover:bg-gray-800">Bayar Sekarang</a>
+                                                    @elseif($order->status == 'completed')
+                                                        <a href="/" class="w-full sm:w-auto text-center px-4 py-2 border border-transparent text-xs font-bold uppercase tracking-widest text-white bg-black hover:bg-gray-800">Beli Lagi</a>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>

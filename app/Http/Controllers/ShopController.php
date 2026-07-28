@@ -40,12 +40,18 @@ class ShopController extends Controller
     {
         $query = Product::with('category')->where('is_active', true);
 
-        // 1. Filter Pencarian (Nama Produk atau Deskripsi)
+        // 1. Filter Pencarian (Nama Produk, Deskripsi, atau Nama Kategori)
         if ($request->filled('search')) {
             $searchTerm = $request->search;
             $query->where(function($q) use ($searchTerm) {
+                // Cari dari nama produk
                 $q->where('name', 'like', '%' . $searchTerm . '%')
-                  ->orWhere('description', 'like', '%' . $searchTerm . '%');
+                  // ATAU cari dari deskripsi produk
+                  ->orWhere('description', 'like', '%' . $searchTerm . '%')
+                  // ATAU cari dari relasi tabel kategori (nama kategori)
+                  ->orWhereHas('category', function($qCategory) use ($searchTerm) {
+                      $qCategory->where('name', 'like', '%' . $searchTerm . '%');
+                  });
             });
         }
 

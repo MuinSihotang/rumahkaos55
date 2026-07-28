@@ -21,7 +21,7 @@
                 
                 <!-- Komponen Fungsionalitas Pencarian -->
                 <!-- Mengirim parameter 'search' via metode GET ke route collections -->
-                <form action="{{ route('shop.best-sellers') }}" method="GET" class="relative flex items-center group">
+                <form action="{{ route('shop.collections') }}" method="GET" class="relative flex items-center group">
                     <!-- Field Input Pencarian (Transisi pelebaran lebar berdasarkan status interaksi) -->
                     <input type="text" name="search" placeholder="Cari produk..." value="{{ request('search') }}"
                         class="{{ request('search') ? 'w-32 sm:w-48 opacity-100' : 'w-0 opacity-0 group-hover:w-32 sm:group-hover:w-48 group-hover:opacity-100 focus:w-32 sm:focus:w-48 focus:opacity-100' }} transition-all duration-300 ease-in-out bg-transparent border-b border-black border-t-0 border-l-0 border-r-0 focus:ring-0 px-2 py-1 text-sm text-black placeholder-gray-400 absolute right-8">
@@ -68,12 +68,6 @@
                         
                         <!-- Konten Menu Dropdown -->
                         <div class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                            
-                            <!-- Blok Informasi Sesi Aktif -->
-                            <div class="px-4 py-3 border-b border-gray-100">
-                                <p class="text-sm text-gray-500">Signed in as</p>
-                                <p class="text-sm font-medium text-black truncate">{{ Auth::user()->email }}</p>
-                            </div>
                             
                             <!-- Tautan Konfigurasi Profil Pengguna -->
                             <a href="{{ route('profile') }}" class="block w-full text-left px-4 py-3 text-sm text-black hover:bg-gray-50 transition-colors border-b border-gray-100">

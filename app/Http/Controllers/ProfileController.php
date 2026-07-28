@@ -8,17 +8,59 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Order;
 use App\Models\UserAddress;
 
+// 1. TAMBAHKAN IMPORT MIDTRANS DI SINI
+use Midtrans\Config;
+use Midtrans\Transaction;
+
 class ProfileController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
         
-        // Mengambil riwayat pesanan beserta detail item, varian, dan produknya
+        // Mengambil riwayat pesanan (Data Awal)
         $orders = Order::with(['items.variant.product'])
             ->where('user_id', $user->id)
             ->latest() // Urutkan dari pesanan terbaru
             ->get();
+
+        // 2. SETUP KONFIGURASI MIDTRANS UNTUK CEK STATUS OTOMATIS
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
+
+        $statusChanged = false;
+
+        // 3. LOGIKA AUTO-CHECK STATUS TANPA WEBHOOK/NGROK
+        foreach ($orders as $order) {
+            // Hanya buang resource untuk mengecek pesanan yang masih 'pending'
+            if ($order->status === 'pending') {
+                try {
+                    // Tanya langsung ke server Midtrans menggunakan order_number (Invoice)
+                    $status = Transaction::status($order->order_number);
+                    $transactionStatus = $status->transaction_status;
+
+                    // Jika di Midtrans terbaca lunas, update database lokal menjadi 'processing'
+                    if ($transactionStatus == 'settlement' || $transactionStatus == 'capture') {
+                        $order->update(['status' => 'processing']);
+                        $statusChanged = true;
+                    } else if ($transactionStatus == 'deny' || $transactionStatus == 'expire' || $transactionStatus == 'cancel') {
+                        $order->update(['status' => 'cancelled']);
+                        $statusChanged = true;
+                    }
+                } catch (\Exception $e) {
+                    // Abaikan jika order belum ada di Midtrans (Pelanggan belum klik bayar sama sekali)
+                    continue;
+                }
+            }
+        }
+
+        // 4. Jika ada pesanan yang statusnya baru saja berubah, ambil ulang datanya dari database
+        if ($statusChanged) {
+            $orders = Order::with(['items.variant.product'])
+                ->where('user_id', $user->id)
+                ->latest()
+                ->get();
+        }
 
         $addresses = $user->addresses;
 
@@ -127,5 +169,14 @@ class ProfileController extends Controller
         $user->save();
 
         return back()->with('success', 'Profil berhasil diperbarui!');
+    }
+
+    // METHOD BARU: Cetak Invoice
+    public function invoice($id)
+    {
+        // Cari pesanan berdasarkan ID dan pastikan itu milik user yang sedang login
+        $order = Order::with(['items.variant.product', 'user'])->where('id', $id)->where('user_id', \Illuminate\Support\Facades\Auth::id())->firstOrFail();
+
+        return view('invoice', compact('order'));
     }
 }

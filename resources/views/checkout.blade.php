@@ -24,24 +24,68 @@
                         <form action="{{ route('checkout.process') }}" method="POST" id="checkout-form">
                             @csrf
                             <div class="grid grid-cols-1 gap-y-6">
-                                <div>
-                                    <label class="block text-sm font-medium text-black mb-2">Nama Lengkap</label>
-                                    <input type="text" name="name" value="{{ auth()->check() ? auth()->user()->name : '' }}" required class="w-full border-gray-300 focus:border-black focus:ring-0 rounded-none shadow-sm sm:text-sm p-3 border">
-                                </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                
+                                @if($addresses->count() == 0)
+                                    <!-- MUNCUL HANYA JIKA USER BELUM PUNYA ALAMAT -->
                                     <div>
-                                        <label class="block text-sm font-medium text-black mb-2">Email</label>
-                                        <input type="email" name="email" value="{{ auth()->check() ? auth()->user()->email : '' }}" required class="w-full border-gray-300 focus:border-black focus:ring-0 rounded-none shadow-sm sm:text-sm p-3 border">
+                                        <label class="block text-sm font-medium text-black mb-2">Nama Lengkap</label>
+                                        <input type="text" name="name" value="{{ auth()->user()->name }}" required class="w-full border-gray-300 focus:border-black focus:ring-0 rounded-none shadow-sm sm:text-sm p-3 border">
+                                    </div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="block text-sm font-medium text-black mb-2">Email</label>
+                                            <input type="email" name="email" value="{{ auth()->user()->email }}" required class="w-full border-gray-300 focus:border-black focus:ring-0 rounded-none shadow-sm sm:text-sm p-3 border">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-black mb-2">Nomor WhatsApp</label>
+                                            <input type="text" name="phone" required class="w-full border-gray-300 focus:border-black focus:ring-0 rounded-none shadow-sm sm:text-sm p-3 border">
+                                        </div>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-black mb-2">Nomor WhatsApp</label>
-                                        <input type="text" name="phone" required class="w-full border-gray-300 focus:border-black focus:ring-0 rounded-none shadow-sm sm:text-sm p-3 border">
+                                        <label class="block text-sm font-medium text-black mb-2">Alamat Lengkap (Beserta Kota, Kecamatan, Kodepos)</label>
+                                        <textarea name="address" rows="4" required class="w-full border-gray-300 focus:border-black focus:ring-0 rounded-none shadow-sm sm:text-sm p-3 border"></textarea>
                                     </div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-black mb-2">Alamat Lengkap</label>
-                                    <textarea name="address" rows="4" required class="w-full border-gray-300 focus:border-black focus:ring-0 rounded-none shadow-sm sm:text-sm p-3 border"></textarea>
-                                </div>
+                                    
+                                @else
+                                    <!-- MUNCUL JIKA USER SUDAH PUNYA ALAMAT (FORM MANUAL DISEMBUNYIKAN) -->
+                                    <div>
+                                        <div class="flex justify-between items-center mb-4">
+                                            <label class="block text-sm font-medium text-black">Pilih Alamat Pengiriman</label>
+                                            <a href="{{ route('profile') }}" class="text-xs font-bold border-b border-black text-black hover:text-gray-500 hover:border-gray-500 transition-colors">Kelola Alamat</a>
+                                        </div>
+                                        
+                                        <div class="space-y-4">
+                                            @foreach($addresses as $address)
+                                                @php
+                                                    $formattedAddress = $address->receiver_name . ' (' . $address->phone_number . ') - ' . $address->full_address . ', Kec. ' . $address->district . ', ' . $address->city . ', ' . $address->province . ', ' . $address->postal_code;
+                                                @endphp
+                                                
+                                                <label class="flex items-start p-5 border cursor-pointer transition-colors {{ ($addresses->count() == 1 || $address->is_primary) ? 'border-black bg-gray-50' : 'border-gray-200 bg-white hover:bg-gray-50' }}">
+                                                    <div class="flex-shrink-0 mt-0.5">
+                                                        <input type="radio" name="address" value="{{ $formattedAddress }}" required 
+                                                            class="h-4 w-4 text-black border-gray-300 focus:ring-black"
+                                                            {{ ($addresses->count() == 1 || $address->is_primary) ? 'checked' : '' }}>
+                                                    </div>
+                                                    <div class="ml-4 flex-1">
+                                                        <p class="text-sm font-bold text-black uppercase">
+                                                            {{ $address->receiver_name }} 
+                                                            @if($address->is_primary) 
+                                                                <span class="ml-2 text-[10px] bg-black text-white px-2 py-0.5 uppercase tracking-widest">Utama</span> 
+                                                            @endif
+                                                        </p>
+                                                        <p class="text-xs text-gray-500 mt-1 font-medium">{{ $address->phone_number }}</p>
+                                                        <p class="text-xs text-gray-700 mt-2 leading-relaxed">
+                                                            {{ $address->full_address }}<br>
+                                                            Kec. {{ $address->district }}, {{ $address->city }}<br>
+                                                            {{ $address->province }}, {{ $address->postal_code }}
+                                                        </p>
+                                                    </div>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+                                
                             </div>
                         </form>
                     </div>

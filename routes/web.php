@@ -92,6 +92,7 @@ Route::post('/cart/remove/{cartKey}', [App\Http\Controllers\CheckoutController::
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout')->middleware(['auth', 'verified']);
 Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process')->middleware(['auth', 'verified']);
 Route::get('/pesanan/{id}/bayar', [CheckoutController::class, 'pay'])->name('order.pay');
+Route::get('/pesanan/{id}/invoice', [App\Http\Controllers\ProfileController::class, 'invoice'])->name('order.invoice');
 
 // ==========================================
 // PROFIL CUSTOMER
