@@ -73,18 +73,38 @@
                             
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                 @foreach($product->variants as $variant)
-                                <!-- Label element as custom Radio Button interface -->
-                                <label class="relative border border-gray-300 rounded-none p-4 flex items-center justify-center cursor-pointer hover:border-black transition-all">
-                                    <input type="radio" name="variant_id" value="{{ $variant->id }}" class="sr-only peer" required>
-                                    <div class="text-sm font-medium text-black text-center peer-checked:font-bold">
-                                        {{ $variant->size }} <br> 
-                                        <span class="text-xs text-gray-500 font-normal peer-checked:text-black">{{ $variant->color }}</span>
-                                    </div>
-                                    <!-- Border indicator for checked state -->
-                                    <div class="absolute inset-0 border-2 border-transparent peer-checked:border-black pointer-events-none"></div>
-                                </label>
+                                    @php
+                                        // Cek apakah stok varian ini kosong (0 atau kurang)
+                                        $isOutOfStock = $variant->stock <= 0;
+                                    @endphp
+
+                                    <!-- Label element as custom Radio Button interface -->
+                                    <label class="relative border rounded-none p-4 flex items-center justify-center {{ $isOutOfStock ? 'border-gray-200 bg-gray-50 cursor-not-allowed' : 'border-gray-300 cursor-pointer hover:border-black transition-all' }}">
+                                        
+                                        <!-- Jika stok habis, tambahkan atribut 'disabled' -->
+                                        <input type="radio" name="variant_id" value="{{ $variant->id }}" class="sr-only peer" required {{ $isOutOfStock ? 'disabled' : '' }}>
+                                        
+                                        <!-- Modifikasi teks agar dicoret jika habis -->
+                                        <div class="text-sm font-medium text-center {{ $isOutOfStock ? 'text-gray-400 line-through' : 'text-black peer-checked:font-bold' }}">
+                                            {{ $variant->size }} <br> 
+                                            <span class="text-xs font-normal {{ $isOutOfStock ? 'text-gray-400' : 'text-gray-500 peer-checked:text-black' }}">
+                                                {{ $variant->color }}
+                                            </span>
+                                        </div>
+                                        
+                                        @if($isOutOfStock)
+                                            <!-- Tambahan label "Habis" melayang di tengah jika stok 0 -->
+                                            <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                                                <span class="text-[10px] font-bold uppercase tracking-widest bg-white/90 text-red-500 px-2 py-0.5 border border-red-100 shadow-sm">Habis</span>
+                                            </div>
+                                        @else
+                                            <!-- Border indicator for checked state (Hanya muncul jika stok ada) -->
+                                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-black pointer-events-none"></div>
+                                        @endif
+
+                                    </label>
                                 @endforeach
-                            </div>
+                                </div>
                         </div>
                         @endif
 
