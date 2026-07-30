@@ -1,0 +1,38 @@
+name: Deploy via FTP
+
+on:
+  push:
+    branches:
+      - main # Sesuaikan jika branch kamu bernama 'master'
+
+jobs:
+  web-deploy:
+    name: Deploy to cPanel
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🚚 Mengekstrak Kode Terbaru
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2' # Sesuaikan dengan versi PHP kamu
+
+      - name: 📦 Install Dependensi (Composer)
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: 🌐 Sinkronisasi File via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Folder tujuan di cPanel (sesuaikan jika bukan public_html)
+          server-dir: /public_html/
+          # File yang diabaikan agar tidak menimpa settingan hosting
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env
