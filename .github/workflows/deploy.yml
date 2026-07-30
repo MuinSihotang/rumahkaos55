@@ -3,7 +3,7 @@ name: Deploy via FTP
 on:
   push:
     branches:
-      - main # Sesuaikan jika branch kamu bernama 'master'
+      - main 
 
 jobs:
   web-deploy:
@@ -17,7 +17,7 @@ jobs:
       - name: ⚙️ Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2' # Sesuaikan dengan versi PHP kamu
+          php-version: '8.2' 
 
       - name: 📦 Install Dependensi (Composer)
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -28,8 +28,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: 22 # Ubah angka 22 jika provider hostingmu menggunakan port SSH khusus
-          remote_path: '/public_html/'
+          port: 22 
+          # PERBAIKAN DI SINI: Menghapus slash di depan public_html
+          remote_path: 'public_html/'
           sftp_only: true
-          # Tetap mengecualikan folder berukuran besar agar cepat
           args: '--exclude .git/ --exclude node_modules/ --exclude vendor/ --exclude .env'
