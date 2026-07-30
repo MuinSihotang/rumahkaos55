@@ -478,6 +478,17 @@
             document.getElementById(modalId).classList.add('hidden');
         }
 
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil parameter dari URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetTab = urlParams.get('tab');
+            
+            // Jika ada parameter tab (misalnya: ?tab=orders), maka jalankan switchTab
+            if (targetTab) {
+                switchTab(targetTab);
+            }
+        });
+
         // Script untuk mengirim data alamat ke form edit secara dinamis
         function openEditModal(address) {
             // Mengatur action form (URL tujuan update ke ID alamat yang dipilih)

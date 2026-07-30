@@ -23,8 +23,8 @@
         document.getElementById('pay-button').onclick = function(){
             window.snap.pay('{{ $snapToken }}', {
                 onSuccess: function(result){
-                    // Redireksi ke antarmuka status transaksi berhasil
-                    window.location.href = "/"; 
+                    // Redireksi ke profil dan tambahkan parameter tab=orders
+                    window.location.href = "/profile?tab=orders"; 
                 },
                 onPending: function(result){
                     alert("Menunggu pembayaran Anda!");
