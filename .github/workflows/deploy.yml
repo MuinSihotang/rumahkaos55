@@ -28,7 +28,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # Folder tujuan di cPanel (sesuaikan jika bukan public_html)
+          protocol: ftp # <--- TAMBAHKAN BARIS INI
           server-dir: /public_html/
           # File yang diabaikan agar tidak menimpa settingan hosting
           exclude: |
