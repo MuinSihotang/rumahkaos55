@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
@@ -185,7 +186,16 @@ class OrderResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
+                // MENAMBAHKAN FILTER STATUS DI SINI
+                SelectFilter::make('status')
+                    ->label('Filter Status')
+                    ->options([
+                        'pending' => 'Pending (Menunggu Pembayaran)',
+                        'processing' => 'Processing (Diproses)',
+                        'shipped' => 'Shipped (Dikirim)',
+                        'completed' => 'Completed (Selesai)',
+                        'cancelled' => 'Cancelled (Dibatalkan)',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
