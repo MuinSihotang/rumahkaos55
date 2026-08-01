@@ -167,11 +167,13 @@
                                                             </div>
                                                             <div class="ml-4 flex flex-1 flex-col justify-center">
                                                                 <div class="flex justify-between text-base font-bold text-black">
-                                                                    <h3 class="uppercase">{{ $item->variant->product->name }}</h3>
-                                                                    <p class="ml-4 whitespace-nowrap">Rp {{ number_format($item->unit_price, 0, ',', '.') }}</p>
+                                                                    <!-- Tambahkan ?-> dan fallback teks -->
+                                                                    <h3 class="uppercase">{{ $item->variant?->product?->name ?? 'Produk Tidak Tersedia' }}</h3>
+                                                                    <p class="ml-4 whitespace-nowrap">Rp {{ number_format($item->unit_price ?? 0, 0, ',', '.') }}</p>
                                                                 </div>
                                                                 <p class="mt-1 text-sm text-gray-500">
-                                                                    Varian: {{ $item->variant->size }} / {{ $item->variant->color }} 
+                                                                    <!-- Tambahkan ?-> dan fallback strip -->
+                                                                    Varian: {{ $item->variant?->size ?? '-' }} / {{ $item->variant?->color ?? '-' }} 
                                                                 </p>
                                                                 <p class="mt-1 text-sm font-medium text-black">Qty: {{ $item->quantity }}</p>
                                                             </div>
