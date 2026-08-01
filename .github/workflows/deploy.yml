@@ -22,6 +22,12 @@ jobs:
       - name: 📦 Install Dependensi (Composer)
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
+      # -------------------------------------------------------------
+      # LANGKAH BARU: Hapus folder berat sebelum dikirim ke cPanel
+      # -------------------------------------------------------------
+      - name: 🧹 Hapus folder berat agar tidak ikut dikirim via SFTP
+        run: rm -rf vendor node_modules .git
+
       - name: 🌐 Sinkronisasi File via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
@@ -29,7 +35,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22 
-          # PERBAIKAN DI SINI: Menghapus slash di depan public_html
           remote_path: 'public_html/'
           sftp_only: true
+          # Args tetap disertakan sebagai lapisan keamanan tambahan
           args: '--exclude .git/ --exclude node_modules/ --exclude vendor/ --exclude .env'
