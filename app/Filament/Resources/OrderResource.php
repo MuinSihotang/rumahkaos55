@@ -87,7 +87,7 @@ class OrderResource extends Resource
                                 ->afterStateUpdated($updateTotal)
                                 ->schema([
                                     Forms\Components\Select::make('product_variant_id')
-                                                ->label('Pilih Varian T-Shirt (SKU)')
+                                        ->label('Pilih Varian T-Shirt (SKU)')
                                         ->options(ProductVariant::with('product')->get()->mapWithKeys(function ($variant) {
                                             // PERBAIKAN: Gunakan null-safe operator dan berikan teks default jika produk kosong
                                             $productName = $variant->product?->name ?? 'Produk Tidak Diketahui / Dihapus';
@@ -182,8 +182,9 @@ class OrderResource extends Resource
                         'completed' => 'success',
                         'cancelled' => 'danger',
                     }),
-                Tables\Columns\TextColumn::make('created_at')
+               Tables\Columns\TextColumn::make('created_at')
                     ->label('Tanggal Pesan')
+                    ->timezone('Asia/Jakarta') // <-- Menyesuaikan otomatis ke jam WIB
                     ->dateTime('d M Y H:i')
                     ->sortable(),
             ])
@@ -225,6 +226,7 @@ class OrderResource extends Resource
                                     ->weight('bold'),
                                 TextEntry::make('created_at')
                                     ->label('Tanggal Transaksi')
+                                    ->timezone('Asia/Jakarta') // <-- Menyesuaikan otomatis ke jam WIB
                                     ->dateTime('d M Y H:i'),
                                 TextEntry::make('status')
                                     ->label('Status Pesanan')
