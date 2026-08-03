@@ -87,9 +87,11 @@ class OrderResource extends Resource
                                 ->afterStateUpdated($updateTotal)
                                 ->schema([
                                     Forms\Components\Select::make('product_variant_id')
-                                        ->label('Pilih Varian T-Shirt (SKU)')
+                                                ->label('Pilih Varian T-Shirt (SKU)')
                                         ->options(ProductVariant::with('product')->get()->mapWithKeys(function ($variant) {
-                                            return [$variant->id => $variant->product->name . ' - ' . $variant->color . ' (' . $variant->size . ')'];
+                                            // PERBAIKAN: Gunakan null-safe operator dan berikan teks default jika produk kosong
+                                            $productName = $variant->product?->name ?? 'Produk Tidak Diketahui / Dihapus';
+                                            return [$variant->id => $productName . ' - ' . $variant->color . ' (' . $variant->size . ')'];
                                         }))
                                         ->searchable()
                                         ->required()
