@@ -89,7 +89,8 @@ class ProductResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('sku')
                                     ->label('SKU')
-                                    ->required(),
+                                    ->required()
+                                    ->unique(table: 'product_variants', column: 'sku', ignoreRecord: true),
                                 Forms\Components\TextInput::make('color')
                                     ->label('Warna (Misal: Hitam)')
                                     ->required(),
